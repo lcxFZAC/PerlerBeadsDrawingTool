@@ -44,8 +44,12 @@
           <h2><span class="step">03</span> 配色与细节</h2>
           <div class="field-heading"><label for="paletteMode">配色方式</label></div>
           <select id="paletteMode"><option value="adaptive">智能取色 · 还原原图</option><option value="fixed">通用色板 · 48 色</option></select>
-          <div class="field-heading range-heading"><label for="colorCount">最多颜色数</label><output id="colorCountValue" for="colorCount">16 色</output></div>
-          <input id="colorCount" type="range" min="2" max="48" value="16">
+          <div class="field-heading"><label for="imageStyle">图像风格</label><span class="muted">决定细节取舍</span></div>
+          <select id="imageStyle"><option value="pixel">像素画 / 图标 · 硬边</option><option value="illustration">插画 · 干净色块</option><option value="photo">照片 · 保留层次</option></select>
+          <div class="field-heading"><label for="ditherMode">渐变抖动</label><span class="muted">像素画建议关闭</span></div>
+          <select id="ditherMode"><option value="off">关闭 · 清晰边缘</option><option value="light">轻度 · 柔和过渡</option></select>
+          <div class="field-heading range-heading"><label for="colorCount">最多颜色数</label><output id="colorCountValue" for="colorCount">12 色</output></div>
+          <input id="colorCount" type="range" min="2" max="48" value="12">
           <div class="range-labels"><span>更简洁</span><span>更细腻</span></div>
           <label class="toggle-row"><span>去除白色背景<small>仅去除与图片边缘相连的白色</small></span><input id="removeBackground" type="checkbox" checked><span class="switch"></span></label>
           <label class="toggle-row"><span>保留像素边缘<small>适合像素画、图标和插画</small></span><input id="pixelEdges" type="checkbox" checked><span class="switch"></span></label>
