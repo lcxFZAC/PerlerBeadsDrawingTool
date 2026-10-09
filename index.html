@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8f7f4">
+  <meta name="description" content="把喜欢的图片变成拼豆图纸。免费、无需登录，在浏览器本地转换，支持画布尺寸、颜色数量、手动修图和高清图纸导出。">
+  <title>豆绘 Bead Studio · 图片转拼豆图纸</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="豆绘首页"><span class="brand-mark"><i></i><i></i><i></i><i></i></span><b>豆绘<span>BEAD STUDIO</span></b></a>
+    <nav aria-label="主导航"><span class="nav-active">图纸工作台</span><button id="guideButton" class="nav-button">使用指南 <span>↗</span></button></nav>
+    <span class="privacy"><span></span> 图片仅在本地处理</span>
+  </header>
+
+  <main>
+    <section class="intro"><div><div class="eyebrow">A LITTLE PIXEL, A LOT OF JOY</div><h1>把喜欢，拼成一颗颗小美好<span>。</span></h1><p>从一张图片开始，让灵感变成触手可及的拼豆作品。</p></div><div class="intro-decoration" aria-hidden="true"><span>✦</span><div class="mini-flower">✿</div><span>✧</span></div></section>
+
+    <div class="workspace">
+      <aside class="settings-panel">
+        <section class="setting-section upload-section">
+          <h2><span class="step">01</span> 添加图片 <span class="section-note">从这里开始</span></h2>
+          <label class="upload-box" id="dropZone" tabindex="0" role="button" aria-label="上传图片，支持 PNG、JPG 和 WebP">
+            <input type="file" id="imageInput" accept="image/png,image/jpeg,image/webp" hidden>
+            <span class="upload-icon" aria-hidden="true">↥</span><strong>点击上传 / 拖入图片</strong><span>JPG、PNG、WebP · 最大 20 MB</span>
+          </label>
+          <div class="source-row"><img id="sourceThumb" alt="当前图片缩略图"><div><strong id="sourceName">一盆小美好 · 示例</strong><span id="sourceSize">内置像素画</span></div><button id="sampleButton" title="重新载入示例" aria-label="重新载入示例">↺</button></div>
+        </section>
+
+        <section class="setting-section">
+          <h2><span class="step">02</span> 画布设置</h2>
+          <div class="field-heading"><label for="gridWidth">图纸尺寸</label><button id="lockRatio" class="text-button active" aria-pressed="true" title="保持原图宽高比">▣ 等比锁定</button></div>
+          <div class="dimension-row"><label><span>宽</span><input id="gridWidth" type="number" min="8" max="160" value="40"><span>颗</span></label><span>×</span><label><span>高</span><input id="gridHeight" type="number" min="8" max="160" value="40"><span>颗</span></label></div>
+          <div class="presets" aria-label="画布尺寸预设"><button data-size="24">24 × 24</button><button data-size="40" class="selected">40 × 40</button><button data-size="64">64 × 64</button><button data-size="96">96 × 96</button></div>
+          <div class="field-heading"><label for="beadSize">拼豆规格</label><span class="muted">用于估算成品尺寸</span></div>
+          <select id="beadSize"><option value="5">标准豆 · 5 mm</option><option value="2.6">迷你豆 · 2.6 mm</option><option value="10">大颗粒 · 10 mm</option></select>
+          <p class="dimension-hint">预计成品 <strong id="physicalSize">20 × 20 cm</strong></p>
+        </section>
+
+        <section class="setting-section">
+          <h2><span class="step">03</span> 配色与细节</h2>
+          <div class="field-heading"><label for="paletteMode">配色方式</label></div>
+          <select id="paletteMode"><option value="adaptive">智能取色 · 还原原图</option><option value="fixed">通用色板 · 48 色</option></select>
+          <div class="field-heading range-heading"><label for="colorCount">最多颜色数</label><output id="colorCountValue" for="colorCount">16 色</output></div>
+          <input id="colorCount" type="range" min="2" max="48" value="16">
+          <div class="range-labels"><span>更简洁</span><span>更细腻</span></div>
+          <label class="toggle-row"><span>去除白色背景<small>仅去除与图片边缘相连的白色</small></span><input id="removeBackground" type="checkbox" checked><span class="switch"></span></label>
+          <label class="toggle-row"><span>保留像素边缘<small>适合像素画、图标和插画</small></span><input id="pixelEdges" type="checkbox" checked><span class="switch"></span></label>
+          <button class="primary-button convert-button" id="convertButton"><span>✦</span> 生成拼豆图纸 <span>→</span></button>
+          <p class="local-note">无需登录，让创作简单一点。</p>
+        </section>
+      </aside>
+
+      <section class="editor-panel" aria-label="图纸编辑区">
+        <header class="editor-header"><div class="editor-title"><span class="status-dot"></span><h2>图纸预览</h2><span id="gridBadge" class="badge">40 × 40</span></div><div class="view-tabs" aria-label="预览模式"><button id="patternTab" class="active" aria-pressed="true">拼豆图纸</button><button id="originalTab" aria-pressed="false">原图对比</button></div><button id="exportButton" class="primary-button export-button">↓ <span>导出图纸</span></button></header>
+
+        <div class="canvas-toolbar"><div class="tool-group" aria-label="编辑工具"><button id="viewTool" class="tool active" title="查看图纸" aria-label="查看图纸" aria-pressed="true">↖</button><button id="brushTool" class="tool" title="画笔：选择下方颜色后点击或拖动绘制" aria-label="画笔" aria-pressed="false">✎</button><button id="eraserTool" class="tool" title="橡皮擦" aria-label="橡皮擦" aria-pressed="false">▱</button><span class="tool-divider"></span><button id="undoButton" class="tool" title="撤销 (Ctrl+Z)" aria-label="撤销" disabled>↶</button><button id="redoButton" class="tool" title="重做 (Ctrl+Shift+Z)" aria-label="重做" disabled>↷</button></div><div class="display-options"><label><input type="checkbox" id="showGrid" checked> 网格</label><label><input type="checkbox" id="showLabels"> 色号</label><label><input type="checkbox" id="beadView"> 豆粒</label></div></div>
+
+        <div class="canvas-stage" id="canvasStage"><div class="canvas-wrap" id="canvasWrap"><canvas id="patternCanvas" role="img" aria-label="拼豆图纸预览"></canvas><img id="originalImage" alt="上传的原图" hidden></div><div id="loading" class="loading" hidden><span></span>正在把灵感变成图纸…</div></div>
+        <div class="canvas-status"><span><span class="status-dot"></span><span id="canvasHint">选好参数，开始你的拼豆创作</span></span><div class="zoom-controls"><button id="zoomOut" title="缩小" aria-label="缩小">−</button><output id="zoomValue">100%</output><button id="zoomIn" title="放大" aria-label="放大">＋</button><span></span><button id="fitButton">适应画布</button></div></div>
+
+        <section class="palette-panel"><div class="palette-heading"><div><h2>你的配色清单 <span id="paletteCount">0 色</span></h2><p>每一种颜色，都是作品的一小部分。</p></div><button id="csvButton" class="text-button">↓ 导出用量清单</button></div><div id="paletteList" class="palette-list"></div><div class="palette-footer"><span><i></i> 点击色块选色，使用画笔微调图纸</span><span>色号为本图编号，不对应品牌色号</span></div></section>
+      </section>
+    </div>
+
+    <section class="summary-strip" aria-label="图纸统计"><div><span class="summary-icon">▦</span><div><span>画布大小</span><strong id="statDimensions">40 × 40 <small>格</small></strong></div></div><div><span class="summary-icon">◉</span><div><span>拼豆总数</span><strong id="statBeads">0 <small>颗</small></strong></div></div><div><span class="summary-icon">◈</span><div><span>使用颜色</span><strong id="statColors">0 <small>色</small></strong></div></div><div><span class="summary-icon">⌑</span><div><span>预计成品尺寸</span><strong id="statSize">20 × 20 <small>cm</small></strong></div></div><p>一点耐心，一颗颗拼出快乐 <span>✳</span></p></section>
+    <footer class="site-footer"><span>豆绘 BEAD STUDIO <i>·</i> 为每一份小小的创造力</span><span>Made for your little moments of joy.</span></footer>
+  </main>
+
+  <dialog id="guideDialog"><button class="dialog-close" id="closeGuide" aria-label="关闭指南">×</button><span class="eyebrow">LET’S MAKE SOMETHING</span><h2>从图片到你的第一张图纸</h2><ol><li><strong>选一张喜欢的图片</strong><p>主体清晰、背景简单的插画效果更好。图片不会上传到服务器。</p></li><li><strong>调整尺寸和配色</strong><p>每一格代表一颗拼豆。初次尝试可选 24 或 40 格、8–16 色。参数调整会自动生成新图纸，并清除手动修改。</p></li><li><strong>为细节加一点心意</strong><p>点击配色选色，再用画笔或橡皮擦修改。支持撤销与重做。打开色号，更方便照图拼豆。</p></li><li><strong>导出，开始拼豆</strong><p>PNG 包含网格、色号及用量清单；CSV 可用表格软件打开。这里的色号仅为图内编号，请根据 HEX 色值和实物色卡选购。成品尺寸是估算值。</p></li></ol><button id="startButton" class="primary-button">开始创作 →</button></dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>

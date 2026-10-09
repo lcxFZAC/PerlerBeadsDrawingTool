@@ -1,0 +1,3 @@
+import {createServer} from 'node:http';import {readFile} from 'node:fs/promises';import {extname,join,normalize} from 'node:path';
+const root=process.cwd(),types={'.html':'text/html;charset=utf-8','.js':'text/javascript;charset=utf-8','.css':'text/css;charset=utf-8','.svg':'image/svg+xml','.png':'image/png'};
+createServer(async(req,res)=>{let p=normalize(join(root,req.url==='/'?'index.html':req.url));if(!p.startsWith(root)){res.writeHead(403);return res.end()}try{res.writeHead(200,{'Content-Type':types[extname(p)]||'application/octet-stream'});res.end(await readFile(p))}catch{res.writeHead(404);res.end('Not found')}}).listen(4173,()=>console.log('http://localhost:4173'));
