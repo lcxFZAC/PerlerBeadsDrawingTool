@@ -21,3 +21,6 @@ npm run dev
 - 去白底、网格、色号、豆粒视图
 - 画笔、橡皮擦、撤销与重做
 - 导出 PNG 图纸和 CSV 用量清单
+- 按 MARD 291、Perler Midi、Hama Midi、Artkal S 色卡匹配，并在清单中输出厂商色号
+
+色卡数据来自 [MakeBead craft-color-codes](https://github.com/makebead/craft-color-codes)，授权与来源说明见 `src/palettes/ATTRIBUTION.md`。屏幕 HEX 只用于匹配参考，实物请以品牌实体色卡为准。
